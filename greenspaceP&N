@@ -1,0 +1,114 @@
+MPLUS Syntax 
+
+Model 1 
+
+Title: NO2 - CRP - GHQ at wave 4 (E & W)
+Data: File is BA_Paper2_noisecr.dat ;
+
+Variable:
+Names are
+pidp no2a a_urban_dv b_sex_cr b_dvage bmivg5 indnsub_lw aPerc_greenspace_UKward_RND marital_status Degree tenure Composition asthma bronchitis cancer CVD alc_12m CRPlog Fiblog strata psu acarstairs2011 GHQw4_Likert GHQw4_caseness
+smoking_cr noise_w3;
+
+Missing are all (-9999) ;
+
+usevariables are no2a a_urban_dv b_sex_cr b_dvage bmivg5 indnsub_lw
+aPerc_greenspace_UKward_RND marital_status Degree tenure Composition asthma
+bronchitis cancer CVD alc_12m CRPlog strata psu acarstairs2011
+GHQw4_caseness smoking_cr noise_w3;
+
+idvariable is pidp;
+
+STRATIFICATION = strata;
+CLUSTER = psu;
+WEIGHT = indnsub_lw;
+
+Analysis:
+     TYPE = COMPLEX;
+     ESTIMATOR = ML;
+     ITERATIONS = 100000;
+     REPSE=BOOTSTRAP;
+     BOOTSTRAP = 7000;
+
+Model:
+
+CRPlog ON aPerc_greenspace_UKward_RND;
+CRPlog ON no2a;
+CRPlog ON acarstairs2011;
+GHQw4_caseness ON no2a;
+GHQw4_caseness ON aPerc_greenspace_UKward_RND;
+GHQw4_caseness ON acarstairs2011;
+GHQw4_caseness ON CRPlog;
+CRPlog GHQw4_caseness ON b_sex_cr b_dvage bmivg5 Degree alc_12m
+asthma bronchitis CVD smoking_cr Composition tenure;
+GHQw4_caseness ON marital_status noise_w3 a_urban_dv;
+CRPlog ON cancer;
+CRPlog no2a GHQw4_caseness aPerc_greenspace_UKward_RND
+acarstairs2011 b_sex_cr b_dvage bmivg5 Degree alc_12m asthma   bronchitis CVD smoking_cr Composition tenure cancer marital_status noise_w3 a_urban_dv;
+
+MODEL INDIRECT:
+
+           GHQw4_caseness IND no2a;
+           GHQw4_caseness IND aPerc_greenspace_UKward_RND;
+           GHQw4_caseness IND acarstairs2011;
+
+ OUTPUT:
+      STAND CINT;! (bcbootstrap);
+
+
+Model 2
+
+Title: NO2 - Fibrinogen - GHQ at wave 4 (E & W)
+Data: File is BA_Paper2_noisecr.dat ;
+
+Variable:
+Names are
+pidp no2a a_urban_dv b_sex_cr b_dvage bmivg5 indnsub_lw aPerc_greenspace_UKward_RND marital_status Degree tenure Composition asthma bronchitis cancer CVD alc_12m CRPlog Fiblog strata psu acarstairs2011 GHQw4_Likert GHQw4_caseness
+smoking_cr noise_w3;
+
+Missing are all (-9999) ;
+
+usevariables are no2a a_urban_dv b_sex_cr b_dvage bmivg5 indnsub_lw
+aPerc_greenspace_UKward_RND marital_status Degree tenure Composition asthma
+bronchitis cancer CVD alc_12m Fiblog strata psu acarstairs2011
+GHQw4_caseness smoking_cr noise_w3;
+
+idvariable is pidp;
+
+STRATIFICATION = strata;
+CLUSTER = psu;
+WEIGHT = indnsub_lw;
+
+Analysis:
+     TYPE = COMPLEX;
+     ESTIMATOR = ML;
+     ITERATIONS = 100000;
+     REPSE=BOOTSTRAP;
+     BOOTSTRAP = 7000;
+
+Model:
+
+Fiblog ON aPerc_greenspace_UKward_RND;
+Fiblog ON no2a;
+Fiblog ON acarstairs2011;
+GHQw4_caseness ON no2a;
+GHQw4_caseness ON aPerc_greenspace_UKward_RND;
+GHQw4_caseness ON acarstairs2011;
+GHQw4_caseness ON Fiblog;
+Fiblog GHQw4_caseness ON b_sex_cr b_dvage bmivg5 Degree alc_12m
+asthma bronchitis CVD smoking_cr Composition tenure;
+GHQw4_caseness ON marital_status noise_w3 a_urban_dv;
+Fiblog ON cancer;
+Fiblog no2a GHQw4_caseness aPerc_greenspace_UKward_RND
+acarstairs2011 b_sex_cr b_dvage bmivg5 Degree alc_12m asthma   bronchitis CVD smoking_cr Composition tenure cancer marital_status noise_w3 a_urban_dv;
+
+MODEL INDIRECT:
+
+           GHQw4_caseness IND no2a;
+           GHQw4_caseness IND aPerc_greenspace_UKward_RND;
+           GHQw4_caseness IND acarstairs2011;
+
+ OUTPUT:
+      STAND CINT;! (bcbootstrap);
+
+
